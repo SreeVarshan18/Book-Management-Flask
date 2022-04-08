@@ -16,48 +16,41 @@
           <div class="container-fluid">
             <a class="navbar-brand" href="#">
               <img src="https://media.blackpool.ac.uk/sites/default/files/styles/1200w/public/2018-03/Earn%20while%20you%20learn.png?itok=vIIX-Qei" alt="" width="30" height="30" class="d-inline-block align-text-top">
-              Book Management
+              Book Management-User Login
             </a>
-          
-          
+
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
+
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="/dash"><b>Add books</b>  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="/view"><b>View books</b>  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/update"><b>Edit books</b> </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/search"><b>Search books</b> </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/delete"><b>Delete books</b> </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/login"><b>Log out</b> </a>
+                  <a class="nav-link" href="/logout"><b>Log out</b> </a>
                 </li>
               </ul>
             </div>
+            {% if session.name %}
+
             <form class="d-flex">
               <img src="https://thumbs.dreamstime.com/b/businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg" alt="" width="40" height="40">
-              <button class="btn btn-outline-light" type="submit">Profile</button>
+              <button class="btn btn-outline-light" type="submit">{{session.name}}</button>
             </form>
+{% else %}
+Not Yet Login
+{% endif %}
+
+
           </div>
         </nav>
-       
+
       </div>
     </div>
   </div>
 
-  
-    
+
+
   {% block content %}
 
   {% endblock %}

@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, flash
+from flask import Flask, request, render_template, session
+from flask_session import Session
 import sqlite3 as s
 
 from werkzeug.utils import redirect
@@ -39,7 +40,9 @@ else:
 
     print("Table Created Successfully")
 App = Flask(__name__)
-
+App.config["SESSION_PERMANENT"] = False
+App.config["SESSION_TYPE"] = "filesystem"
+Session(App)
 
 @App.route('/', methods=['GET','POST'])
 def login():
@@ -47,18 +50,18 @@ def login():
     if request.method == "POST":
         getEmail = request.form["email"]
         getPass = request.form["pass"]
-        result1 = connection.execute("SELECT EMAIL FROM USER")
-        result2 = connection.execute("SELECT PASS FROM USER")
+        cursor = connection.cursor()
+        query = "SELECT * FROM USER WHERE EMAIL='"+getEmail+"' AND PASS='"+getPass+"'"
+        print(query)
+        result1 = cursor.execute(query).fetchall()
+        if len(result1) > 0:
+            for i in result1:
+                getName = i[1]
+                getId = i[0]
+                session["name"] = getName
+                session["id"] = getId
 
-        for i in result1:
-            print(i[0])
-            a = i[0]
-
-        for j in result2:
-            print(j[0])
-            b = j[0]
-        if getEmail == a and getPass == b:
-            return redirect('/login')
+            return redirect('/userpage')
         else:
             return render_template("userlogin.html", status=True)
 
@@ -96,10 +99,6 @@ def userRegister():
 
         return render_template("userregister.html", status=False)
 
-
-@App.route('/logout')
-def logout():
-    return redirect('/login')
 
 
 @App.route('/login', methods=['GET', 'POST'])
@@ -204,6 +203,20 @@ def updatedata():
         print("Updated Successfully")
         return redirect('/view')
     return render_template("up.html")
+
+
+
+@App.route('/userpage')
+def userpage():
+    if not session.get("name"):
+        return redirect('/')
+    else:
+        return render_template("userpage.html")
+
+@App.route('/logout')
+def logout():
+    session["name"] = None
+    return redirect('/')
 
 
 if __name__ == "__main__":
