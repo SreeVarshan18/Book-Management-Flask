@@ -1,0 +1,79 @@
+{% extends "userbase.html"%}
+{% block content %}
+
+<section class="bg-danger text-dark p-5 text-center">
+    <div class="container">
+        <center><h1> <span class="text-light">
+            Update 
+        </span>
+        Page </h1></center>  
+
+    </div>
+</section>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+          <div class="col col-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 col-xxl-6">
+              <br>
+                    
+                    <form action="/userup" method="post">
+                        <br>
+                        <table class="table">
+                           <tr>
+                               <td>New Book Name</td>
+                               <td><input name="name" type="text" class="form-control"></td>
+                           </tr>
+                           <tr>
+                               <td>New Author Name</td>
+                               <td><input name="auth" type="text" class="form-control"></td>
+                           </tr>
+                           <tr>
+                               <td>New Category</td>
+                               <td><input name="cat" type="text" class="form-control"></td>
+                           </tr>
+                           <tr>
+                               <td>New Price</td>
+                               <td><input name="price" type="text" class="form-control"></td>
+                           </tr>
+                           <tr>
+                               <td>New Publisher</td>
+                               <td><input name="pub" type="text" class="form-control"></td>
+                           </tr>
+                           
+                        </table>
+                        <center><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Register
+                          </button></center>
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel">Edit Book</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  Are you sure you want to Edit this book?
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                  <button type="submit" class="btn btn-success">Edit</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                    </form>
+                
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+        
+        </div>
+
+       
+
+{% endblock %}

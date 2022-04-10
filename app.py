@@ -206,18 +206,99 @@ def updatedata():
 
 
 
-@App.route('/userpage')
+@App.route('/userpage', methods=['GET', 'POST'])
 def userpage():
     if not session.get("name"):
         return redirect('/')
     else:
-        return render_template("userpage.html")
+        if request.method == "POST":
+            getName = request.form["name"]
+            getAu = request.form["auth"]
+            getCat = request.form["cat"]
+            getPrice = request.form["price"]
+            getPub = request.form["pub"]
+
+            connection.execute("INSERT INTO BOOKS(NAME, AUTHOR, CATEGORY, PRICE, PUBLISHER) \
+            VALUES('" + getName + "', '" + getAu + "', '" + getCat + "', '" + getPrice + "', '" + getPub + "')")
+            connection.commit()
+            print("Inserted Successfully")
+    return render_template("userpage.html")
 
 @App.route('/logout')
 def logout():
     session["name"] = None
     return redirect('/')
 
+
+
+# @App.route('/useradd', methods=['GET', 'POST'])
+# def userAdd():
+#     if request.method == "POST":
+#         getName = request.form["name"]
+#         getAu = request.form["auth"]
+#         getCat = request.form["cat"]
+#         getPrice = request.form["price"]
+#         getPub = request.form["pub"]
+#
+#         connection.execute("INSERT INTO BOOKS(NAME, AUTHOR, CATEGORY, PRICE, PUBLISHER) \
+#         VALUES('"+getName+"', '"+getAu+"', '"+getCat+"', '"+getPrice+"', '"+getPub+"')")
+#         connection.commit()
+#         print("Inserted Successfully")
+#     return render_template("userpage.html")
+
+
+@App.route('/usersearch', methods=['GET', 'POST'])
+def usersearch():
+    cursor = connection.cursor()
+    if request.method == "POST":
+        getName = request.form["name"]
+        count = cursor.execute("SELECT * FROM BOOKS WHERE NAME='" + getName + "'")
+        result = cursor.fetchall()
+        if result is None:
+            print("Book Name Not Exist")
+        else:
+            return render_template("usersearch.html", search=result, status=True)
+    else:
+        return render_template("usersearch.html", search=[], status=False)
+
+
+@App.route('/userup', methods=['GET', 'POST'])
+def userupdatedata():
+    if request.method == "POST":
+        getName = request.form["name"]
+        getAu = request.form["auth"]
+        getCat = request.form["cat"]
+        getPrice = request.form["price"]
+        getPub = request.form["pub"]
+
+        connection.execute("UPDATE BOOKS SET NAME='" + getName + "', AUTHOR='" + getAu + "'\
+                            ,CATEGORY='" + getCat + "', PRICE='" + getPrice + "', PUBLISHER='" + getPub + "' \
+                                  WHERE NAME='" + getNName + "'")
+        connection.commit()
+        print("Updated Successfully")
+        return redirect('/userpage')
+    return render_template("userup.html")
+
+
+
+@App.route('/userupdate', methods=['GET', 'POST'])
+def userupdation():
+    global getNName
+    cursor = connection.cursor()
+    if request.method == "POST":
+        getNName = request.form["name"]
+        count = cursor.execute("SELECT * FROM BOOKS WHERE NAME='" + getNName + "'")
+        result = cursor.fetchall()
+        if result is None:
+            print("Book Name Not Exist")
+        else:
+
+            return render_template("userupdate.html", search=result, status=True)
+
+
+    else:
+
+        return render_template("userupdate.html", search=[], status=False)
 
 if __name__ == "__main__":
     App.run()

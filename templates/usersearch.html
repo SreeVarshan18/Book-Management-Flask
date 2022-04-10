@@ -1,0 +1,74 @@
+{% extends "userbase.html"%}
+{% block content %}
+<section class="bg-danger text-dark p-5 text-center">
+    <div class="container">
+        <center><h1> <span class="text-light">
+            Search 
+        </span>
+        Page </h1></center>  
+
+    </div>
+</section>
+<br>
+<div class="container">
+    <div class="row">
+      <div class="col">
+          </div>
+          <div class="col col-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 col-xxl-6">
+              <br>
+            <form action="/usersearch" method="post">
+                <table class="table">
+                    <tr>
+                        <td>Book Name</td>
+                        <td><input type="text" name="name" class="form-control"></td>
+                    </tr>
+                   
+                </table>
+                <center><button type="submit" class="btn btn-info">Search</button></center>
+            </form>
+          
+
+<br>
+<br>
+        {% if status %}
+        
+           
+                    {% for i in search %}
+                    
+                       <center>
+                        <div class="card text-white bg-dark mb-3" style="width: 18rem;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Book-icon-bible.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title"> <center>{{i[1]}}</center></h5>
+                             
+                            </div>
+                            <ul class="list-group list-group-flush ">
+                                <li class="list-group-item text-white bg-dark mb-3"><b>Author:</b>  {{i[2]}}</li>
+                              <li class="list-group-item text-white bg-dark mb-3"><b>Category:</b>  {{i[3]}}</li>
+                              <li class="list-group-item text-white bg-dark mb-3"><b>Price:</b>  {{i[4]}}</li>
+                              <li class="list-group-item text-white bg-dark mb-3"><b>Publisher:</b>  {{i[5]}}</li>
+                            </ul>
+                            
+                          </div>
+                       </center>
+                        
+                    
+                <br>
+                <br>
+                  
+       
+       
+                {% endfor %}
+                
+            
+
+        {% endif %}
+
+</div>
+        <div class="col">
+        </div>
+        </div>
+        </div>
+
+
+{% endblock %}
